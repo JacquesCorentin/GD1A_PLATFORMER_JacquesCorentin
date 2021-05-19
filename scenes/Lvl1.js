@@ -73,15 +73,36 @@ class Lvl1 extends Phaser.Scene {
      //Player's movement
         this.player.setVelocity(
             //X
-            this.control.movementJ(this.control.inputJoueur(this.cursors, inputP, pad, xAxis, yAxis), this.player,this.playerSpeed, this.maxSpeed)[0],
+            this.control.movementJ(this.control.inputJoueur(this.cursors, inputP, pad, xAxis, yAxis), this.player,this.playerSpeed, this.maxSpeed, fireDirection)[0],
             //Y
-            this.control.movementJ(this.control.inputJoueur(this.cursors, inputP, pad, xAxis, yAxis), this.player,this.playerSpeed, this.maxSpeed)[1]);
+            this.control.movementJ(this.control.inputJoueur(this.cursors, inputP, pad, xAxis, yAxis), this.player,this.playerSpeed, this.maxSpeed, fireDirection)[1]);
 
-
-    if (this.cursors.buttonX.isDown || pad.X){
-        // 2.1 call a function to create a beam instance
-        this.shootBeam();
-    }
+        
+            if (pad.X && fire==true && nbProjectile==true || this.cursors.buttonX.isDown && fire==true && nbProjectile==true)
+            {
+                this.shootBeam();
+                nbProjectile=false;
+                fire=false ;
+                if (p>0)
+                {
+                    p = p - 1;
+                }
+            }
+            if (this.cursors.buttonX.isUp && p>0 && recoveryProjectile == false ||!pad.X && p>0 && recoveryProjectile == false)
+            {
+                fire=true;
+                nbProjectile=true;
+                recoveryProjectile = true ;
+            }
+    
+            if(recoveryProjectile == true){
+                timerProj = timerProj + 1
+                if(timerProj >= 50)
+                {
+                    recoveryProjectile = false
+                    timerProj = 0
+                }
+            }
 
     }
 

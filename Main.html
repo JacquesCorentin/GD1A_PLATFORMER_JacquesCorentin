@@ -30,13 +30,18 @@ var hit = true;
 
 // Controles //
 //création des inputs du joueur, par defaut sur false
-var inputP = [false, false, false]; // Space/X, right, Left
+var inputP = [false, false, false, false]; // Space/X, right, Left
 var xAxis = 0; //Stick xAxis
 var yAxis = 0; //Stick yAxis
+var fireDirection = [false, false]; // direction du tire
 
 // Attack //
-var nbProjectile = 3;
-var fire = true;
+var nbProjectile = true;
+var fire = false;
+var recoveryProjectile = true;
+var timerProj = 0;
+var p = 3;
+
 
 
     
@@ -48,7 +53,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: {y: 0},
+            gravity: {y: 300},
             debug:true
         }
     },

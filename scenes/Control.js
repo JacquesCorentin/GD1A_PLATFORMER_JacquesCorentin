@@ -7,14 +7,15 @@ class Control extends Phaser.Scene{
     inputJoueur(cursors, inputP, pad, xAxis){
         //Input
 
-        //le joueur appuie sur Espace(Clavier) ou pad /stick vers la droite
-        inputP[2] = cursors.space.isDown || pad.X ? true : false;
+        //le joueur appuie sur Espace(Clavier) ou sur A à la manette, il effectura une action définis
+        inputP[2] = cursors.space.isDown || pad.A ? true : false;
 
         //le joueur appuie sur Droite(Clavier) ou pad Droite/stick vers la droite
         inputP[0] = cursors.right.isDown || pad.right || xAxis > 0.4 ? true: false;
 
         //le joueur appuie sur Gauche(Clavier) ou pad Gauche/stick vers la droite
         inputP[1] = cursors.left.isDown || pad.left || xAxis < -0.4 ? true: false;
+
 
         return (inputP);
     }

@@ -7,7 +7,7 @@ class Menu extends Phaser.Scene{
     preload(){
         this.load.image('brick', ["assets/PNG/noir.png", "assets/PNG/noir1.jpg"]); // On vient charger 2 backgrounds pour les superposer afin de créerl effet d'ombre sur le reste du niveau
         this.load.spritesheet('Minori', "assets/PNG/Minori.png",{ frameWidth: 32, frameHeight: 32 }); // On vient charcher la spritesheet et lui définir sa grandeur de frame
-        
+        this.load.image('Projectile', "assets/PNG/Projectile.png");
     }
 
 
@@ -25,7 +25,9 @@ class Menu extends Phaser.Scene{
             frames: this.anims.generateFrameNumbers('Minori', { start: 6, end: 8 }),
             frameRate : 10,
             repeat : -1
-        });    
+        });
+        
+
     
     }
 

@@ -23,7 +23,8 @@ class Lvl1 extends Phaser.Scene {
         'down': Phaser.Input.Keyboard.KeyCodes.DOWN, 
         'left': Phaser.Input.Keyboard.KeyCodes.LEFT,
         'right': Phaser.Input.Keyboard.KeyCodes.RIGHT,
-        'space' : Phaser.Input.Keyboard.KeyCodes.SPACE
+        'space' : Phaser.Input.Keyboard.KeyCodes.SPACE,
+        'buttonX' : Phaser.Input.Keyboard.KeyCodes.X
     });
 
     this.control.resetControl(this.cursors);
@@ -47,10 +48,7 @@ class Lvl1 extends Phaser.Scene {
 
     this.lights.enable().setAmbientColor(0x008888);
 
-    //this.input.on('pointermove', function (player) {
-
-
-   // });*/
+    
 
 }
 
@@ -79,4 +77,15 @@ class Lvl1 extends Phaser.Scene {
             //Y
             this.control.movementJ(this.control.inputJoueur(this.cursors, inputP, pad, xAxis, yAxis), this.player,this.playerSpeed, this.maxSpeed)[1]);
 
-    }}
+
+    if (this.cursors.buttonX.isDown || pad.X){
+        // 2.1 call a function to create a beam instance
+        this.shootBeam();
+    }
+
+    }
+
+    shootBeam(){
+        var projectile = new Projectile(this);
+    }
+}

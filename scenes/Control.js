@@ -42,6 +42,10 @@ class Control extends Phaser.Scene{
             player.setVelocityX(0);
         }
 
+        if (inputP[2]){
+            player.setVelocityY(-playerSpeed);
+        }
+
         if (inputP[3]){
             player.setVelocityX(0);
             player.setVelocityY(0);

@@ -12,10 +12,45 @@ class Lvl1 extends Phaser.Scene {
 
     preload(){
 
+
     }
 
      create ()
 {
+
+    brick = this.add.sprite(0, 0, 'brick');
+
+
+
+    const map = this.make.tilemap({ key: 'Map_1' }) // on charge la map 1 
+    const tileset = map.addTilesetImage('assets_game','plateforme') // on charge les assets de la map utilisé dans Tilde
+
+    
+
+    map.createStaticLayer('sol', tileset) // on crée les assets grâce au JSON
+    map.createStaticLayer('sol_2', tileset)
+    map.createStaticLayer('ronces_2', tileset)
+    map.createStaticLayer('ronces', tileset)
+    map.createStaticLayer('decors_2', tileset) 
+    map.createStaticLayer('decors', tileset)
+    map.createStaticLayer('murs_2', tileset)
+    map.createStaticLayer('murs_map_2', tileset)
+    map.createStaticLayer('murs_map', tileset)
+    map.createStaticLayer('murs', tileset)
+
+    this.player = this.physics.add.sprite(400, 200, 'Minori');
+    this.player.body.setSize(20,18);
+
+    this.player.setCollideWorldBounds(true);
+
+     // Physiques player //
+    
+    this.player.setBounce(0.0);
+    this.physics.world.setBounds(0, 0, 22400, 9600);
+    this.cameras.main.startFollow(this.player);
+    this.cameras.main.setBounds(0, 0, 22400, 9600);
+    //this.cameras.main.setZoom(-1);
+
     this.control = this.scene.get('Control');
     
 
@@ -33,18 +68,15 @@ class Lvl1 extends Phaser.Scene {
 
 
 
-    brick = this.add.sprite(0, 0, 'brick');
+ 
     brick.setOrigin(0.0);
     brick.setPipeline('Light2D');
 
-    this.player = this.physics.add.sprite(400, 200, 'Minori');
-    this.player.body.setSize(20,18);
-
-    this.player.setCollideWorldBounds(true);
 
 
 
-    light = this.lights.addLight(400, 300, 120).setIntensity(2);
+
+    light = this.lights.addLight(400, 300, 250).setIntensity(2);
 
     this.lights.enable().setAmbientColor(0x008888);
 

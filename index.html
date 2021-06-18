@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Minori, la lumère d'Aurora</title>
+        <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+        <script type="text/javascript" src="scenes/Lvl1.js"></script>
+        <script type="text/javascript" src="scenes/Menu.js"></script>
+        <script type="text/javascript" src="scenes/Control.js"></script>
+        <script type="text/javascript" src="scenes/Projectile.js"></script>
+        <script type="text/javascript" src="scenes/Light.js"></script>
+        <script type="text/javascript" src="scenes/Game_Over.js"></script>
+        <style type="text/css">
+            body {
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body>
+    <script type="text/javascript">
+    
+
+var bg;
+var start = true;
+    
+// Lumière //
+var light; // variable pour ajouter une lumière
+var brick;
+var radius = 250; // Rayon du cercle de lumière autour du joueur 
+
+// perles Loot //
+var perles;
+var perle;
+var perles1;
+var compteur = 0;
+
+// Joueur //
+var player;
+
+
+var vieJoueur = 3; // Vie du joueur
+var barreDeVie;
+var invincible = false; // Frame d'invincibilité pour ne pas perdre toute sa vie d'un coup
+var timerInvincible = 0; // Timer qui a pour but de laisser du temps au joueur de se sortir d'affaire
+    // Jump
+var toucheSol=true; // Check si le joueur touche le sol
+var doubleSaut=false; // Regarde si le joueur fait un saut
+var doubleSautActif=false; // Regarde si le joueur à fait un double saut
+
+// Ressources //
+var ressources;
+
+
+var gameOver = false; // Indique la mort du joueur
+
+// Controles //
+//création des inputs du joueur, par defaut sur false
+var inputP = [false, false, false, false]; // Space/X, right, Left
+var xAxis = 0; //Stick xAxis
+var yAxis = 0; //Stick yAxis
+var firedirection = [false, false]; // direction du tire
+
+// Attack //
+var nbProjectile = true;
+var fire = false;
+var recoveryProjectile = true;
+var timerProj = 0;
+var p = 3;
+
+
+
+    
+    
+var config = {
+    type: Phaser.WEBGL,
+    width: 1280,
+    height: 468,
+    scale: {
+        parent: 'mygame',
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: {y: 300},
+            debug:true
+        }
+    },
+    input:{gamepad:true},
+    scene: [Menu, Lvl1, Control, Game_Over],
+};
+
+var game = new Phaser.Game(config);
+    
+</script>     
+
+</body>
+</html>

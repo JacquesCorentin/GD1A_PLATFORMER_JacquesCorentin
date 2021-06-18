@@ -10,6 +10,8 @@ class Control extends Phaser.Scene{
         //le joueur appuie sur Espace(Clavier) ou sur A à la manette, il effectura une action définis
         inputP[2] = cursors.space.isDown || pad.A ? true : false;
 
+        inputP[4] = cursors.buttonH.isDown || pad.O ? true : false;
+
         //le joueur appuie sur Droite(Clavier) ou pad Droite/stick vers la droite
         inputP[0] = cursors.right.isDown || pad.right || xAxis > 0.4 ? true: false;
 
@@ -19,44 +21,61 @@ class Control extends Phaser.Scene{
         //le joueur appuie sur Espace(Clavier) ou sur A à la manette, il effectura une action définis
         inputP[3] = cursors.buttonX.isDown || pad.X ? true : false;
 
+        //le joueur appuie sur Espace(Clavier) ou sur A à la manette, il effectura une action définis
+        inputP[5] = cursors.buttonS.isDown || pad.B ? true : false;
+        
+
         return (inputP);
     }
 
 
-    movementJ(inputP, player, playerSpeed, maxSpeed, fireDirection){
-        //Logic
-            playerSpeed = maxSpeed;
-        if (inputP[0] && !inputP[3]){
+    move(inputP, player, playerSpeed, speed ,toucheSol,firedirection,doubleSaut,doubleSautActif){
+        playerSpeed = speed;
+
+
+        if (inputP[0]){
             player.setVelocityX(playerSpeed);
-            fireDirection[0] = true;
-            fireDirection[1] = false;
+            firedirection[0]=true;
+            firedirection[1]=false;
         }
-        
-        if (inputP[1] && !inputP[3]){
+
+        if (inputP[1]){
             player.setVelocityX(-playerSpeed);
-            fireDirection[0] = false;
-            fireDirection[1] = true;
+            firedirection[0]=false;
+            firedirection[1]=true;
         }
 
         if (!inputP[0] && !inputP[1]){
             player.setVelocityX(0);
         }
 
-        if (inputP[2]){
-            player.setVelocityY(-playerSpeed);
-        }
-
-        if (inputP[3]){
+        if (inputP[0] && inputP[1]){
             player.setVelocityX(0);
-            player.setVelocityY(0);
         }
 
-        return [player.body.velocity.x, player.body.velocity.y];
+        if (inputP[2]  && toucheSol==true){
+            player.setVelocityY(-480);
+            toucheSol=false;
+        }
+
+        if (!inputP[2] && toucheSol==false && doubleSaut==false)
+        {
+            doubleSautActif=true;
+        }
+
+        if (inputP[2] && doubleSautActif==true)
+        {
+            player.setVelocityY(-480);
+            doubleSautActif = false;
+            doubleSaut = true;
+        }
+
+        return [player.body.velocity.x, player.body.velocity.y,toucheSol,doubleSaut,doubleSautActif];
     }
 
     animation(player){
 
-        if (attack){
+       /* if (attack){
 
             if(direction == 'down'){
                 return 'downAttack';
@@ -74,7 +93,7 @@ class Control extends Phaser.Scene{
                 return 'rightAttack';
             }
             
-        }
+        }*/
 
         if (player.body.velocity.x > 0){
             return 'right'
@@ -89,7 +108,7 @@ class Control extends Phaser.Scene{
         }
 
         if (player.body.velocity.y < 0){
-            return 'up'
+            return 'space'
         }
         
 
@@ -98,7 +117,7 @@ class Control extends Phaser.Scene{
     resetControl(cursors){
             cursors.left.isDown = false;
             cursors.right.isDown = false;
-            cursors.up.isDown = false;
-            cursors.down.isDown = false;
+            //cursors.up.isDown = false;
+            //cursors.down.isDown = false;
     }
 }

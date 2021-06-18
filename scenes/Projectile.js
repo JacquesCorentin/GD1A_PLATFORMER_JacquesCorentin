@@ -16,10 +16,10 @@ class Projectile extends Phaser.GameObjects.Sprite{
     this.body.velocity.x = - 250;
     this.body.setAllowGravity(false);
 
-    if (fireDirection[0]){
+    if (firedirection[0]){
         this.body.velocity.x = 200;
     }
-    else if (fireDirection[1]){
+    else if (firedirection[1]){
         this.body.velocity.x = -200;
     }
  

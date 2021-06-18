@@ -9,7 +9,7 @@ class Menu extends Phaser.Scene{
         this.load.spritesheet("Minori","assets/PNG/Minori.png", { frameWidth: 360 , frameHeight: 195 }); // On vient charger la spritesheet et lui définir sa grandeur de frame
         this.load.image('Minori_assis', "assets/PNG/Minori_assis.png");
         this.load.spritesheet('Projectile', "assets/PNG/Projectile.png", { frameWidth: 64 , frameHeight: 64 }); // On vient charger le sprite du projectile
-        this.load.tilemapTiledJSON('Map_1', 'assets/MAP/map_1.JSON'); // map en format JSON
+        this.load.tilemapTiledJSON('Map_1', 'assets/MAP/map_1.json'); // map en format JSON
         this.load.image('plateforme', 'assets/PNG/plateforme.png');  // assets utilisé pour la map dans tiled
         this.load.spritesheet("barreDeVie", "assets/PNG/vie.png", { frameWidth: 486 , frameHeight: 150.75 }); // on charge ici l'asset de vie 
         this.load.image('titre', 'assets/PNG/Titre.png');  // Chargement de l'ecran titre 

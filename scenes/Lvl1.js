@@ -83,13 +83,14 @@ class Lvl1 extends Phaser.Scene {
         })*/
 
 
-    brick = this.add.sprite(0, 0, 'brick');
+    //brick = this.add.image(0, 0, 'brick');
     
-    player = this.player = this.physics.add.sprite(2150, 1250, 'Minori');
-    
+    player = this.player = this.physics.add.sprite(2150, 1295, 'Minori');
+    this.player.setSize(160, 138).setOffset(130,8);
 
 
     this.player.setCollideWorldBounds(true);
+    
 
      // Physiques player //
     
@@ -116,17 +117,16 @@ class Lvl1 extends Phaser.Scene {
 
 
 
-
-
  
-    brick.setOrigin(0.0);
-    brick.setPipeline('Light2D');
+    //brick.setOrigin(0.0);
+    //brick.setPipeline('Light2D');
+    brick = this.add.tileSprite(400, 300, 800, 600, 'brick').setPipeline('Light2D');
 
 
 
 
 
-    light = this.lights.addLight(0, 0, radius).setIntensity(3);
+    
     
 
     this.lights.enable().setAmbientColor(0x008888);
@@ -135,8 +135,8 @@ class Lvl1 extends Phaser.Scene {
 
     this.physics.add.collider(this.player,sol, resetJump);
     this.physics.add.collider(this.player,sol_2, resetJump);
-    this.physics.add.collider(this.player,murs);
-    this.physics.add.collider(this.player,murs_2 );
+    this.physics.add.collider(this.player,murs, resetJump);
+    this.physics.add.collider(this.player,murs_2, resetJump);
     this.physics.add.collider(this.player,murs_map);
     this.physics.add.collider(this.player,murs_map_2);
     this.physics.add.collider(this.player,ronces, hitEnnemis );
@@ -149,7 +149,7 @@ class Lvl1 extends Phaser.Scene {
     barreDeVie.setScrollFactor(0,0)  
 
     // Ressources //
-    ressources = this.physics.add.sprite(800,0, 'perles').setOrigin(0,0);
+    ressources = this.physics.add.sprite(1100,0, 'perles').setOrigin(0,0);
     ressources.body.setAllowGravity(false),
     ressources.setScrollFactor(0,0)
 
@@ -157,7 +157,19 @@ class Lvl1 extends Phaser.Scene {
     perles = this.physics.add.sprite(800,0, 'perlesLoot').setOrigin(0,0);
     perles.body.setAllowGravity(true)
 
-    this.bgcontrol = this.add.image(1750,1010, "bgcontrol").setOrigin(0,0);
+    
+
+    // Timer projectile
+    proj = this.physics.add.sprite(1100, 370,'timerProjectile').setOrigin(0,0);
+    proj.body.setAllowGravity(false),
+    proj.setScrollFactor(0,0)
+
+    // Timer projectile
+    projC = this.physics.add.sprite(1000, 370,'timerShiny').setOrigin(0,0);
+    projC.body.setAllowGravity(false),
+    projC.setScrollFactor(0,0)
+
+    this.bgcontrol = this.add.image(1750,1060, "bgcontrol").setOrigin(0,0);
 
     
 
@@ -166,19 +178,34 @@ class Lvl1 extends Phaser.Scene {
 
     update(){
 
+    let pad = Phaser.Input.Gamepad.Gamepad;
+    
+    if(this.input.gamepad.total){   //Si une manette est connecté
+        pad = this.input.gamepad.getPad(0);  //pad récupère les inputs du joueur
+        xAxis = pad ? pad.axes[0].getValue() : 0;   //Si le stick est utilisé xAxys récupère la valeur sur l'axe X, sinon il est égale a 0
+        yAxis = pad ? pad.axes[1].getValue() : 0;   //Pareil pour l'axe Y
+    }
+
 
     if (start == true){
 
-        if (this.cursors.buttonS.isDown == true ){
+        if (this.cursors.buttonS.isDown == true || pad.B ){
             start = false;
             this.bgcontrol.setVisible(false);
         }
 
     }
     if (start == false){
+    
+    light = this.lights.addLight(400, 300, 280).setIntensity(3);
 
     
-
+    if (this.cursors.buttonS.isDown == true && recoveryShiny == false || pad.B && recoveryShiny == false ){
+        projC.anims.play('time4', true);
+        radius = 4000;
+        recoveryShiny = true;
+    }
+    
     // perles animation //
    perles.anims.play('perlesLoot', true);
 
@@ -229,18 +256,13 @@ class Lvl1 extends Phaser.Scene {
         }
         compteur = false;
     }
+        
 
         light.x = this.player.x;
         light.y = this.player.y;
 
 
-    let pad = Phaser.Input.Gamepad.Gamepad;
     
-    if(this.input.gamepad.total){   //Si une manette est connecté
-        pad = this.input.gamepad.getPad(0);  //pad récupère les inputs du joueur
-        xAxis = pad ? pad.axes[0].getValue() : 0;   //Si le stick est utilisé xAxys récupère la valeur sur l'axe X, sinon il est égale a 0
-        yAxis = pad ? pad.axes[1].getValue() : 0;   //Pareil pour l'axe Y
-    }
    
     
    
@@ -279,29 +301,61 @@ class Lvl1 extends Phaser.Scene {
                     this.player.setSize(160, 138).setOffset(80,8);
                 }
             }
-            if (pad.X && fire==true && nbProjectile==true || this.cursors.buttonX.isDown && fire==true && nbProjectile==true)
+            if ( p == 0){
+                proj.anims.play('time_4', true);
+            }
+            if (pad.X   && recoveryProjectile == false && p>0 || this.cursors.buttonX.isDown  && recoveryProjectile == false && p>0)
             {
                 this.shootBeam();
+                proj.anims.play('time_4', true);
                 nbProjectile=false;
                 fire=false ;
                 if (p>0)
                 {
                     p = p - 1;
                 }
-            }
-            if (this.cursors.buttonX.isUp && p>0 && recoveryProjectile == false ||!pad.X && p>0 && recoveryProjectile == false)
-            {
                 fire=true;
                 nbProjectile=true;
                 recoveryProjectile = true ;
             }
-    
-            if(recoveryProjectile == true){
+            
+            
+            if(recoveryProjectile == true && p > 0){
                 timerProj = timerProj + 1
-                if(timerProj >= 50)
+                if (timerProj >= 15 && timerProj < 30){
+                    proj.anims.play('time_3', true);
+                }
+                if (timerProj >= 30 && timerProj < 45){
+                    proj.anims.play('time_2', true);
+                }
+                if (timerProj >= 45 && timerProj < 60){
+                    proj.anims.play('time_1', true);
+                }
+                if(timerProj >= 60)
                 {
+                    proj.anims.play('time_0', true);
                     recoveryProjectile = false
                     timerProj = 0
+                }
+            }
+
+            if(recoveryShiny == true ){
+                timerShiny = timerShiny + 1
+                if (timerShiny >= 60 && timerShiny < 120){
+                    projC.anims.play('time3', true);
+                }
+                if (timerShiny >= 120 && timerShiny < 180){
+                    projC.anims.play('time2', true);
+                }
+                if (timerShiny >= 180 && timerShiny < 240){
+                    projC.anims.play('time1', true);
+                }
+                if(timerShiny >= 240)
+                {
+                    projC.anims.play('time0', true);
+                    recoveryShiny = false
+                    radius = 250
+                    timerShiny = 0
                 }
             }
     }
@@ -345,7 +399,7 @@ function hitEnnemis ()
 }
 
 function resetJump() {
-    if ( player.body.onFloor())
+    if ( player.body.onFloor() || player.body.onWall())
     {
         toucheSol=true;
         doubleSaut=false;

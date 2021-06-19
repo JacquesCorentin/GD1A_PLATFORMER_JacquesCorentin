@@ -54,7 +54,7 @@ class Control extends Phaser.Scene{
         }
 
         if (inputP[2]  && toucheSol==true){
-            player.setVelocityY(-480);
+            player.setVelocityY(-490);
             toucheSol=false;
         }
 

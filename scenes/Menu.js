@@ -5,7 +5,7 @@ class Menu extends Phaser.Scene{
     }
 
     preload(){
-        this.load.image('brick', ["assets/PNG/noir.png", "assets/PNG/map_1_ombre.png"]); // On vient charger 2 backgrounds pour les superposer afin de créerl effet d'ombre sur le reste du niveau
+        this.load.image('brick', ["assets/PNG/noir.png", "assets/PNG/map_1.png"]); // On vient charger 2 backgrounds pour les superposer afin de créerl effet d'ombre sur le reste du niveau
         this.load.spritesheet("Minori","assets/PNG/Minori.png", { frameWidth: 360 , frameHeight: 195 }); // On vient charger la spritesheet et lui définir sa grandeur de frame
         this.load.image('Minori_assis', "assets/PNG/Minori_assis.png");
         this.load.spritesheet('Projectile', "assets/PNG/Projectile.png", { frameWidth: 64 , frameHeight: 64 }); // On vient charger le sprite du projectile
@@ -13,9 +13,11 @@ class Menu extends Phaser.Scene{
         this.load.image('plateforme', 'assets/PNG/plateforme.png');  // assets utilisé pour la map dans tiled
         this.load.spritesheet("barreDeVie", "assets/PNG/vie.png", { frameWidth: 486 , frameHeight: 150.75 }); // on charge ici l'asset de vie 
         this.load.image('titre', 'assets/PNG/Titre.png');  // Chargement de l'ecran titre 
-        this.load.spritesheet('perles', "assets/PNG/perles_de_lumiere.png", { frameWidth: 500 , frameHeight: 180 }); // On charge l'asset des perles de lumière
+        this.load.spritesheet('perles', "assets/PNG/perles_de_lumiere.png", { frameWidth: 250 , frameHeight: 95 }); // On charge l'asset des perles de lumière
         this.load.spritesheet('perlesLoot', "assets/PNG/perles.png", { frameWidth: 70 , frameHeight: 80 });  // Chargement de l'ecran titre
-        this.load.image('bgcontrol', 'assets/PNG/control.png');  // Chargement de l'ecran de controle pour le début du
+        this.load.image('bgcontrol', 'assets/PNG/control.png');  // Chargement de l'ecran de controle pour le début du jeu
+        this.load.spritesheet('timerShiny', "assets/PNG/timer_shiny.png", { frameWidth: 84.6 , frameHeight: 80 });
+        this.load.spritesheet('timerProjectile', "assets/PNG/timer_projectile.png", { frameWidth: 84.6 , frameHeight: 80 });
     }
 
 
@@ -157,12 +159,93 @@ class Menu extends Phaser.Scene{
 
     // Projectile animations 
     this.anims.create({
-        key: 'leftP',
+        key: 'leftD',
         frames: this.anims.generateFrameNumbers('Projectile', { start: 0, end: 3 }),
         frameRate : 10,
         repeat : -1
     });
 
+    this.anims.create({
+        key: 'leftG',
+        frames: this.anims.generateFrameNumbers('Projectile', { start: 4, end: 6 }),
+        frameRate : 10,
+        repeat : -1
+    });
+
+        //timer projectile
+
+    this.anims.create({
+        key: 'time_0',
+        frames: [ {key : 'timerProjectile', frame:0}],
+        frameRate : 10,
+        repeat : -1
+    });
+
+    this.anims.create({
+        key: 'time_1',
+        frames: [ {key : 'timerProjectile', frame:1}],
+        frameRate : 10,
+        repeat : -1
+    });
+
+    this.anims.create({
+        key: 'time_2',
+        frames: [ {key : 'timerProjectile', frame:2}],
+        frameRate : 10,
+        repeat : -1
+    });
+
+    this.anims.create({
+        key: 'time_3',
+        frames: [ {key : 'timerProjectile', frame:3}],
+        frameRate : 10,
+        repeat : -1
+    });
+
+    this.anims.create({
+        key: 'time_4',
+        frames: [ {key : 'timerProjectile', frame:4}],
+        frameRate : 10,
+        repeat : -1
+    });
+
+
+    //timer compétence
+
+    this.anims.create({
+        key: 'time0',
+        frames: [ {key : 'timerShiny', frame:0}],
+        frameRate : 10,
+        repeat : -1
+    });
+
+    this.anims.create({
+        key: 'time1',
+        frames: [ {key : 'timerShiny', frame:1}],
+        frameRate : 10,
+        repeat : -1
+    });
+
+    this.anims.create({
+        key: 'time2',
+        frames: [ {key : 'timerShiny', frame:2}],
+        frameRate : 10,
+        repeat : -1
+    });
+
+    this.anims.create({
+        key: 'time3',
+        frames: [ {key : 'timerShiny', frame:3}],
+        frameRate : 10,
+        repeat : -1
+    });
+
+    this.anims.create({
+        key: 'time4',
+        frames: [ {key : 'timerShiny', frame:4}],
+        frameRate : 10,
+        repeat : -1
+    });
     
     }
     update() {

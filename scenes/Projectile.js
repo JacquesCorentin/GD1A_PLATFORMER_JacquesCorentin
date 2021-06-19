@@ -13,15 +13,19 @@ class Projectile extends Phaser.GameObjects.Sprite{
     // 3.3
     //this.play("Projectile_anim");
     scene.physics.world.enableBody(this); 
-    this.body.velocity.x = - 250;
+    this.body.velocity.x = - 750;
     this.body.setAllowGravity(false);
 
     if (firedirection[0]){
-        this.body.velocity.x = 200;
+        this.play('leftD');
+        this.body.velocity.x = 700;
     }
     else if (firedirection[1]){
-        this.body.velocity.x = -200;
+        this.play('leftG');
+        this.body.velocity.x = -700;
     }
+
+
  
 
   }

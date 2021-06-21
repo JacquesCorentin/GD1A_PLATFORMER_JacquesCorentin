@@ -10,6 +10,10 @@
         <script type="text/javascript" src="scenes/Projectile.js"></script>
         <script type="text/javascript" src="scenes/Light.js"></script>
         <script type="text/javascript" src="scenes/Game_Over.js"></script>
+        <script type="text/javascript" src="scenes/Sanglier.js"></script>
+        <script type="text/javascript" src="scenes/Oiseaux.js"></script>
+        <script type="text/javascript" src="scenes/Loup.js"></script>
+        <script type="text/javascript" src="scenes/Lapin.js"></script>
         <style type="text/css">
             body {
                 margin: 0;
@@ -22,6 +26,9 @@
 
 var bg;
 var start = true;
+var win = false;
+var steleDeLumiere; // variable pour initialiser la stèle de fin de niveau
+var brick2;
     
 // Lumière //
 var light; // variable pour ajouter une lumière
@@ -29,10 +36,14 @@ var brick;
 var radius = 250; // Rayon du cercle de lumière autour du joueur 
 
 // perles Loot //
-var perles;
+var perles = 0;
 var perle;
+var perle1;
+var perle2;
+var perle3;
+var perle4;
 var perles1;
-var compteur = 0;
+var compteur;
 
 // timer assets //
 var proj;
@@ -40,6 +51,7 @@ var projC;
 
 // Joueur //
 var player;
+
 
 
 var vieJoueur = 3; // Vie du joueur
@@ -91,7 +103,7 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: {y: 300},
-            debug:true
+            debug:false
         }
     },
     input:{gamepad:true},

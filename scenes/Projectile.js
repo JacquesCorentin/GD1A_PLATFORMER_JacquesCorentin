@@ -25,6 +25,7 @@ class Projectile extends Phaser.GameObjects.Sprite{
         this.body.velocity.x = -700;
     }
 
+    scene.projectiles.add(this);
 
  
 

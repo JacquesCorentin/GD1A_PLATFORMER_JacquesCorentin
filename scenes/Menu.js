@@ -5,7 +5,8 @@ class Menu extends Phaser.Scene{
     }
 
     preload(){
-        this.load.image('brick', ["assets/PNG/noir.png", "assets/PNG/map_1.png"]); // On vient charger 2 backgrounds pour les superposer afin de créerl effet d'ombre sur le reste du niveau
+        this.load.image('brick', ["assets/PNG/noir.png", "assets/PNG/map_1.jpg"]); // On vient charger 2 backgrounds pour les superposer afin de créerl effet d'ombre sur le reste du niveau
+        this.load.image('brick2', ["assets/PNG/noir.png", "assets/PNG/map_1.jpg"]);
         this.load.spritesheet("Minori","assets/PNG/Minori.png", { frameWidth: 360 , frameHeight: 195 }); // On vient charger la spritesheet et lui définir sa grandeur de frame
         this.load.image('Minori_assis', "assets/PNG/Minori_assis.png");
         this.load.spritesheet('Projectile', "assets/PNG/Projectile.png", { frameWidth: 64 , frameHeight: 64 }); // On vient charger le sprite du projectile
@@ -13,11 +14,18 @@ class Menu extends Phaser.Scene{
         this.load.image('plateforme', 'assets/PNG/plateforme.png');  // assets utilisé pour la map dans tiled
         this.load.spritesheet("barreDeVie", "assets/PNG/vie.png", { frameWidth: 486 , frameHeight: 150.75 }); // on charge ici l'asset de vie 
         this.load.image('titre', 'assets/PNG/Titre.png');  // Chargement de l'ecran titre 
-        this.load.spritesheet('perles', "assets/PNG/perles_de_lumiere.png", { frameWidth: 250 , frameHeight: 95 }); // On charge l'asset des perles de lumière
-        this.load.spritesheet('perlesLoot', "assets/PNG/perles.png", { frameWidth: 70 , frameHeight: 80 });  // Chargement de l'ecran titre
+        this.load.spritesheet('perles', "assets/PNG/perles_de_lumiere.png", { frameWidth: 250 , frameHeight: 111.5 }); // On charge l'asset des perles de lumière
+        this.load.spritesheet('perlesLoot', "assets/PNG/perles.png", { frameWidth: 68.8 , frameHeight: 80 });  // Chargement de l'ecran titre
         this.load.image('bgcontrol', 'assets/PNG/control.png');  // Chargement de l'ecran de controle pour le début du jeu
         this.load.spritesheet('timerShiny', "assets/PNG/timer_shiny.png", { frameWidth: 84.6 , frameHeight: 80 });
         this.load.spritesheet('timerProjectile', "assets/PNG/timer_projectile.png", { frameWidth: 84.6 , frameHeight: 80 });
+        this.load.image('bgVictoire', "assets/PNG/victoire.png"); // On charge l'asset de victoire
+        this.load.spritesheet('stele', "assets/PNG/stele_de_lumiere.png", { frameWidth: 301 , frameHeight: 351.5 });
+        this.load.spritesheet('Oiseaux', "assets/PNG/ennemis1.png", { frameWidth: 136.5 , frameHeight: 99 });
+        this.load.spritesheet('Sanglier', "assets/PNG/ennemis2.png", { frameWidth: 308 , frameHeight: 149 });
+        this.load.spritesheet('lapin', "assets/PNG/ennemis3.png", { frameWidth: 205.3 , frameHeight: 149 });
+        this.load.spritesheet('loup', "assets/PNG/ennemis4.png", { frameWidth: 169.2 , frameHeight: 75 });
+    
     }
 
 
@@ -39,11 +47,45 @@ class Menu extends Phaser.Scene{
         
 
 
+    this.anims.create({
+        key: 'Oiseaux',
+        frames: this.anims.generateFrameNumbers('Oiseaux', { start: 0, end: 1 }),
+        frameRate : 10,
+        repeat : -1
+    });
+
+
+    this.anims.create({
+        key: 'Sanglier',
+        frames: this.anims.generateFrameNumbers('Sanglier', { start: 0, end: 1 }),
+        frameRate : 10,
+        repeat : -1
+    });
+
+    this.anims.create({
+        key: 'lapin',
+        frames: this.anims.generateFrameNumbers('lapin', { start: 0, end: 1 }),
+        frameRate : 10,
+        repeat : -1
+    });
+
+    this.anims.create({
+        key: 'loup',
+        frames: this.anims.generateFrameNumbers('loup', { start: 0, end: 2 }),
+        frameRate : 10,
+        repeat : -1
+    });
+
+
+
+
+
+
         // Perles animations
 
         this.anims.create({
             key: 'perlesLoot',
-            frames: this.anims.generateFrameNumbers('perlesLoot', { start: 0, end: 5 }),
+            frames: this.anims.generateFrameNumbers('perlesLoot', { start: 0, end: 4 }),
             frameRate : 10,
             repeat : -1
         });
@@ -51,7 +93,7 @@ class Menu extends Phaser.Scene{
 
         this.anims.create({
             key: 'perles_0',
-            frames: [ {key : 'perles_de_lumiere', frame:0}],
+            frames: [ {key : 'perles', frame:0}],
             frameRate : 10,
             repeat : -1
         });
@@ -59,35 +101,35 @@ class Menu extends Phaser.Scene{
 
         this.anims.create({
             key: 'perles_1',
-            frames: [ {key : 'perles_de_lumiere', frame:1}],
+            frames: [ {key : 'perles', frame:1}],
             frameRate : 10,
             repeat : -1
         });
 
         this.anims.create({
             key: 'perles_2',
-            frames: [ {key : 'perles_de_lumiere', frame:2}],
+            frames: [ {key : 'perles', frame:2}],
             frameRate : 10,
             repeat : -1
         });
 
         this.anims.create({
             key: 'perles_3',
-            frames: [ {key : 'perles_de_lumiere', frame:3}],
+            frames: [ {key : 'perles', frame:3}],
             frameRate : 10,
             repeat : -1
         });
 
         this.anims.create({
             key: 'perles_4',
-            frames: [ {key : 'perles_de_lumiere', frame:4}],
+            frames: [ {key : 'perles', frame:4}],
             frameRate : 10,
             repeat : -1
         });
 
         this.anims.create({
             key: 'perles_5',
-            frames: [ {key : 'perles_de_lumiere', frame:5}],
+            frames: [ {key : 'perles', frame:5}],
             frameRate : 10,
             repeat : -1
         });
@@ -246,6 +288,23 @@ class Menu extends Phaser.Scene{
         frameRate : 10,
         repeat : -1
     });
+
+
+    // Stèle de victoire 
+
+    this.anims.create({
+        key: 'stele_0',
+        frames: [ {key : 'stele', frame:0}],
+        frameRate : 10,
+        repeat : -1
+    });
+
+    this.anims.create({
+        key: 'stele_1',
+        frames: [ {key : 'stele', frame:1}],
+        frameRate : 10,
+        repeat : -1
+    });
     
     }
     update() {
@@ -260,7 +319,7 @@ class Menu extends Phaser.Scene{
 
 
     if (this.cursors.buttonX.isDown || pad.X ){
-            this.scene.start('Lvl1', {playerX: 352, playerY:288, maxSpeed:500}) // On charge la scène et le player mais on donne une position de base et une vitesse
+            this.scene.start('Lvl1', {playerX: 11280, playerY:9000, maxSpeed:500}) // On charge la scène et le player mais on donne une position de base et une vitesse
         }
 
     }

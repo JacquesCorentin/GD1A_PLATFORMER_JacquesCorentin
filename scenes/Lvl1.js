@@ -83,19 +83,41 @@ class Lvl1 extends Phaser.Scene {
         })*/
 
 
-    //brick = this.add.image(0, 0, 'brick');
+    brick = this.add.image(0, 0, 'brick');
+    brick2 = this.add.image(21350, 6880, 'brick2');
     
+    // Stèle de lumière 
+    steleDeLumiere = this.physics.add.sprite(21350, 6880, 'stele').setOrigin(0,0);
+    steleDeLumiere.body.setAllowGravity(false),
+
+
+
+     // Ennemis 
+
+    this.sanglier = this.physics.add.group();
+    this.sanglier1 = new Sanglier(this,250,200,"Sanglier");
+
+    this.loup = this.physics.add.group();
+    this.loup1 = new Loup(this,21350,6880,"loup");
+ 
+    this.oiseaux = this.physics.add.group();
+    this.oiseaux1 = new Oiseaux(this,11800, 3000,"Oiseaux");
+
+    this.lapin = this.physics.add.group();
+    this.lapin1 = new Lapin(this,21500,1295,"lapin");
+
+    
+    //2250,1295
+
     player = this.player = this.physics.add.sprite(2150, 1295, 'Minori');
     this.player.setSize(160, 138).setOffset(130,8);
-
-
     this.player.setCollideWorldBounds(true);
     
 
      // Physiques player //
     
     this.player.setBounce(0.0);
-    this.physics.world.setBounds(0, 0, 22400, 9600);
+    this.physics.world.setBounds(0, 0, 22400, 7600);
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, 22400, 9600);
     //this.cameras.main.setZoom(-1);
@@ -118,16 +140,37 @@ class Lvl1 extends Phaser.Scene {
 
 
  
-    //brick.setOrigin(0.0);
-    //brick.setPipeline('Light2D');
-    brick = this.add.tileSprite(400, 300, 800, 600, 'brick').setPipeline('Light2D');
-
-
-
+    
+    brick.setPipeline('Light2D');
+    brick.setOrigin(0.0);
 
 
     
+    // Perles recoltable //
+    this.perles = this.physics.add.group();
+    perle = this.perles.create(250,200,'perlesLoot');
+    perle.anims.play('perlesLoot', true);
+
+    perle1 = this.perles.create(21500,1295,'perlesLoot');
+    perle1.anims.play('perlesLoot', true);
+
+    perle2 = this.perles.create(11000,3000,'perlesLoot');
+    perle2.anims.play('perlesLoot', true);
+
+    perle3 = this.perles.create(250, 900,'perlesLoot');
+    perle3.anims.play('perlesLoot', true);
+
+    perle4 = this.perles.create(11200,5000,'perlesLoot');
+    perle4.anims.play('perlesLoot', true);
     
+
+
+
+
+
+    this.projectiles = this.add.group();
+
+
 
     this.lights.enable().setAmbientColor(0x008888);
 
@@ -140,7 +183,47 @@ class Lvl1 extends Phaser.Scene {
     this.physics.add.collider(this.player,murs_map);
     this.physics.add.collider(this.player,murs_map_2);
     this.physics.add.collider(this.player,ronces, hitEnnemis );
-    this.physics.add.collider(this.player,perles, collectPerles );
+    this.physics.add.collider(this.player,this.perles, collectPerles );
+    this.physics.add.collider(this.perles, sol);
+    this.physics.add.overlap(this.player, steleDeLumiere, winner, null,this);
+
+// collider ennemis
+    this.physics.add.collider(this.sanglier,sol);
+    this.physics.add.collider(this.sanglier,sol_2);
+    this.physics.add.collider(this.sanglier,murs);
+    this.physics.add.collider(this.sanglier,murs_2);
+    this.physics.add.collider(this.sanglier,murs_map);
+    this.physics.add.collider(this.sanglier,murs_map_2);
+    this.physics.add.overlap(this.player, this.sanglier, hitEnnemis, null,this);
+
+    this.physics.add.collider(this.oiseaux,sol);
+    this.physics.add.collider(this.oiseaux,sol_2);
+    this.physics.add.collider(this.oiseaux,murs);
+    this.physics.add.collider(this.oiseaux,murs_2);
+    this.physics.add.collider(this.oiseaux,murs_map);
+    this.physics.add.collider(this.oiseaux,murs_map_2);
+    this.physics.add.overlap(this.player,this.oiseaux, hitEnnemis, null,this);
+
+    this.physics.add.collider(this.loup,sol);
+    this.physics.add.collider(this.loup,sol_2);
+    this.physics.add.collider(this.loup,murs);
+    this.physics.add.collider(this.loup,murs_2);
+    this.physics.add.collider(this.loup,murs_map);
+    this.physics.add.collider(this.loup,murs_map_2);
+    this.physics.add.overlap(this.player,this.loup, hitEnnemis, null,this);
+
+    this.physics.add.collider(this.lapin,sol);
+    this.physics.add.collider(this.lapin,sol_2);
+    this.physics.add.collider(this.lapin,murs);
+    this.physics.add.collider(this.lapin,murs_2);
+    this.physics.add.collider(this.lapin,murs_map);
+    this.physics.add.collider(this.lapin,murs_map_2);
+    this.physics.add.overlap(this.player,this.lapin, hitEnnemis, null,this);
+    
+    this.physics.add.collider(this.projectiles, this.loup, mort);
+    this.physics.add.collider(this.projectiles, this.lapin, mort);
+    this.physics.add.collider(this.projectiles, this.oiseaux, mort);
+    this.physics.add.collider(this.projectiles, this.sanglier, mort);
 
 
     // Vie //
@@ -153,9 +236,7 @@ class Lvl1 extends Phaser.Scene {
     ressources.body.setAllowGravity(false),
     ressources.setScrollFactor(0,0)
 
-    // Perles recoltable //
-    perles = this.physics.add.sprite(800,0, 'perlesLoot').setOrigin(0,0);
-    perles.body.setAllowGravity(true)
+    
 
     
 
@@ -169,7 +250,13 @@ class Lvl1 extends Phaser.Scene {
     projC.body.setAllowGravity(false),
     projC.setScrollFactor(0,0)
 
+  
+
+
     this.bgcontrol = this.add.image(1750,1060, "bgcontrol").setOrigin(0,0);
+    this.bgVictoire = this.add.image(0,0, "bgVictoire").setOrigin(0,0);
+    this.bgVictoire.setScrollFactor(0,0)
+    this.bgVictoire.setVisible(false);
 
     
 
@@ -196,24 +283,69 @@ class Lvl1 extends Phaser.Scene {
 
     }
     if (start == false){
-    
-    light = this.lights.addLight(400, 300, 280).setIntensity(3);
 
+
+    
+    light = this.lights.addLight(400, 300, radius).setIntensity(0.5);
+    
     
     if (this.cursors.buttonS.isDown == true && recoveryShiny == false || pad.B && recoveryShiny == false ){
         projC.anims.play('time4', true);
         radius = 4000;
         recoveryShiny = true;
     }
+
+
+    if (this.player.x < this.sanglier1.x)
+        {
+            this.sanglier1.flipX = 0;
+        }
+        if (this.player.x > this.sanglier1.x)
+        {
+            this.sanglier1.flipX = 180;
+        }
+
+        if (this.player.x < this.oiseaux1.x)
+        {
+            this.oiseaux1.flipX = 0;
+        }
+        if (this.player.x > this.oiseaux1.x)
+        {
+            this.oiseaux1.flipX = 180;
+        }
+
+
+        if (this.player.x < this.lapin1.x)
+        {
+            this.lapin1.flipX = 0;
+        }
+        if (this.player.x > this.lapin1.x)
+        {
+            this.lapin1.flipX = 180;
+        }
+
+        if (this.player.x < this.loup1.x)
+        {
+            this.loup1.flipX = 0;
+        }
+        if (this.player.x > this.loup1.x)
+        {
+            this.loup1.flipX = 180;
+        }
     
     // perles animation //
-   perles.anims.play('perlesLoot', true);
+   //this.perles.anims.play('perlesLoot', true);
 
-    if (gameOver)
+   if (win == true){
+       this.player.anims.play('fix');
+       this.physics.pause();
+       this.bgVictoire.setVisible(true);
+   }
+
+    if (gameOver == true)
     {   
         this.player.anims.play('fix');
         this.physics.pause();
-        this.scene.start('Game_Over');
         return;
     } 
 
@@ -228,41 +360,56 @@ class Lvl1 extends Phaser.Scene {
     }
 
 
-    if (perles1 == 0){
-        perle.anims.play("perles_0",true);
+    if (perles == 0){
+        ressources.anims.play("perles_0",true);
+        //this.player.setTint(0x00ff00);
     }
-    if (compteur == true){
-        perles1 = perles1 + 1
-        if (perles1 > 5){
-            perles1 = 5
+    //if (compteur == true){
+        if ( perles == 1){
+            ressources.anims.play('perles_1', true);
         }
-        if ( perles1 == 1){
-            perle.anims.play('perles_1');
-        }
-        if ( perles1 == 2){
-            perle.anims.play('perles_2');
+        if ( perles == 2){
+            ressources.anims.play('perles_2', true);
         }
 
-        if ( perles1 == 3){
-            perle.anims.play('perles_3');
+        if ( perles == 3){
+            ressources.anims.play('perles_3', true);
         }
     
-        if ( perles1 == 4){
-            perle.anims.play('perles_4');
+        if ( perles == 4){
+            ressources.anims.play('perles_4', true);
         }
 
-        if ( perles1 == 5){
-            perle.anims.play('perles_5');
+        if ( perles == 5){
+            ressources.anims.play('perles_5', true);
         }
-        compteur = false;
-    }
+       // compteur = false;
+    //}
         
 
         light.x = this.player.x;
         light.y = this.player.y;
 
 
-    
+    for(var i = 0; i < this.oiseaux.getChildren().length; i++){
+            var oiseaux = this.oiseaux.getChildren()[i];
+            oiseaux.movement(this.player);
+        }
+
+        for(var i = 0; i < this.loup.getChildren().length; i++){
+            var loup = this.loup.getChildren()[i];
+            loup.movement(this.player);
+        }
+
+        for(var i = 0; i < this.lapin.getChildren().length; i++){
+            var lapin = this.lapin.getChildren()[i];
+            lapin.movement(this.player);
+        }
+
+        for(var i = 0; i < this.sanglier.getChildren().length; i++){
+            var sanglier = this.sanglier.getChildren()[i];
+            sanglier.movement(this.player);
+        }
    
     
    
@@ -408,7 +555,22 @@ function resetJump() {
 
  // Fonction collectible :
     
- function collectPerles(){
-    perle.disableBody(true,true);
-    compteur = true;
+ function collectPerles(player, perle){
+    perle.destroy();
+    perles += 1;
+    //compteur = true;
+}
+
+// Fonction victoire
+
+function winner(){
+    player.setTint(0x00ff00);
+    if ( perles == 5){
+        win = true
+    }
+}
+
+function mort(bullet, ennemis){
+    ennemis.destroy();
+    bullet.destroy();
 }

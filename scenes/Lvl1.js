@@ -564,7 +564,7 @@ function resetJump() {
 // Fonction victoire
 
 function winner(){
-    player.setTint(0x00ff00);
+    //player.setTint(0x00ff00);
     if ( perles == 5){
         win = true
     }
